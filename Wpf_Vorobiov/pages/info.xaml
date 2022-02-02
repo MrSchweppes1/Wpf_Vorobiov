@@ -23,10 +23,11 @@
                         <GroupBox Header="Пол">
                             <TextBlock x:Name="genderTxt"/>
                         </GroupBox>
-                        <GroupBox Header="Дополнительная информация">
-                            <StackPanel>
-                                <TextBlock x:Name="DopInfotxt"/>
-                            </StackPanel>
+                        <GroupBox Header="качества личности">
+                            <TextBlock x:Name="tbTraits" />
+                        </GroupBox>
+                        <GroupBox Header="Фото">
+                            <Image x:Name="Image" Loaded="Image_Loaded" Width="450"  Height="200"  />
                         </GroupBox>
 
                         <Button Content="Назад" x:Name="BackBtn" Style="{StaticResource butnot}" Click="BackBtn_Click"/>

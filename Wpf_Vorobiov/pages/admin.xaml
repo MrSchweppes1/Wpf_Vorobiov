@@ -22,9 +22,9 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <TextBlock Text="Удаление"/>
-                <Button x:Name="Del" Content="Del" Click="Del_Click"/>
-                <Button x:Name="UpdateBTN" Content="Update" Click="UpdateBTN_Click"/>
-                <Button x:Name="Backbtn" Content="Назад" IsCancel="True" Click="Backbtn_Click"/>
+                <Button x:Name="Del" Content="Del" Style="{StaticResource butnot}" Click="Del_Click"/>
+                <Button x:Name="UpdateBTN" Content="Update" Style="{StaticResource butnot}" Click="UpdateBTN_Click"/>
+                <Button x:Name="Backbtn" Content="Назад" IsCancel="True" Style="{StaticResource butnot}" Click="Backbtn_Click"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

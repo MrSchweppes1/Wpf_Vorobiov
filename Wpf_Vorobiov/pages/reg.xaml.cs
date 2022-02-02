@@ -44,7 +44,6 @@ namespace Wpf_Vorobiov.pages
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             load.MainFrame.GoBack();
-
         }
 
         private void Zapbut_Click(object sender, RoutedEventArgs e)

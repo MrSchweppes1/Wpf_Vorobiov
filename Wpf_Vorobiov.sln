@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf_Vorobiov", "Wpf_Vorobiov\Wpf_Vorobiov.csproj", "{C1D9BF04-8476-4327-97B3-88F560564EED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgeUserDLL", "AgeUserDLL\AgeUserDLL.csproj", "{E8A9B951-CB6F-404A-B0B5-87C526DB3D5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C1D9BF04-8476-4327-97B3-88F560564EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D9BF04-8476-4327-97B3-88F560564EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1D9BF04-8476-4327-97B3-88F560564EED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A9B951-CB6F-404A-B0B5-87C526DB3D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A9B951-CB6F-404A-B0B5-87C526DB3D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A9B951-CB6F-404A-B0B5-87C526DB3D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A9B951-CB6F-404A-B0B5-87C526DB3D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

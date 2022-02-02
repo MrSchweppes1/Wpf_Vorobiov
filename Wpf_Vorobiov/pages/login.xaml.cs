@@ -115,7 +115,7 @@ namespace Wpf_Vorobiov.pages
 
         private void RegBtn_Click(object sender, RoutedEventArgs e)
         {
-            load.MainFrame.Navigate(new reg());
+            load.MainFrame.Navigate(new reg(0));
         }
 
         private void RegBtn_Click_1(object sender, RoutedEventArgs e)

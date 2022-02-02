@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Brushes = System.Windows.Media.Brushes;
 using Wpf_Vorobiov.classes;
 
 namespace Wpf_Vorobiov.pages
@@ -21,104 +25,284 @@ namespace Wpf_Vorobiov.pages
     /// </summary>
     public partial class userList : Page
     {
+        List<users> lu1;
         List<users> users;
+        List<usersimage> USIM;
+        PageChange NewPage = new PageChange();
         public userList()
         {
             InitializeComponent();
-            lbUsersList.ItemsSource = BaseCon.BaseModel.users.ToList();
+
             users = BaseCon.BaseModel.users.ToList();
-            List<genders> genders = BaseCon.BaseModel.genders.ToList();
-            Gen.ItemsSource = genders;
-            Gen.SelectedValuePath = "id";
-            Gen.DisplayMemberPath = "gender";
+            lbUsersList.ItemsSource = users;
+
+            lbGenderFilter.ItemsSource = BaseCon.BaseModel.genders.ToList();
+            lbGenderFilter.SelectedValuePath = "id";
+            lbGenderFilter.DisplayMemberPath = "gender";
+            lu1 = users;
+
+            lbUsersList.ItemsSource = users;
+
+            DataContext = NewPage;
+
         }
 
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
         {
-            ListBox lb = (ListBox)sender;
-            int id = Convert.ToInt32(lb.Uid);
-            lb.ItemsSource = BaseCon.BaseModel.users_to_traits.Where(x => x.id_user == id).ToList();
-            lb.DisplayMemberPath = "traits.trait";
+            try
+            {
+                //senser содержит объект, который вызвал данное событие, но только у него объектный тип, надо преобразовать
+                ListBox lb = (ListBox)sender;//lb содержит ссылку на тот список, который вызвал это событие
+                int index = Convert.ToInt32(lb.Uid);//получаем ID элемента списка. в данном случае оно совпадает с id user
+                lb.ItemsSource = BaseCon.BaseModel.users_to_traits.Where(x => x.id_user == index).ToList();
+                lb.DisplayMemberPath = "traits.trait";//показываем пользователю текстовое описание качества
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show("Возникла  ошибка" + exp.Message);
+            }
         }
 
-        private void Changebtn_Click(object sender, RoutedEventArgs e)
+        private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            Button b = (Button)sender;
-            int id = Convert.ToInt32(b.Uid);
-            auth tUser = BaseCon.BaseModel.auth.FirstOrDefault(x => x.id == id);
-            load.MainFrame.Navigate(new change(tUser));
+            lbUsersList.ItemsSource = users;//в качестве источника данных исходный список
+            lu1 = users;
+            lbGenderFilter.SelectedIndex = -1; //сбрасываем выбранный элемент списка
+            txtNameFilter.Text = "";//сбрасываем фильтр на строку
+            txtOT.Text = "";
+            txtDO.Text = "";
+            sz.IsChecked = false;
+            szz.IsChecked = false;
+            szzz.IsChecked = false;
+            RBReverse.IsChecked = false;
         }
 
-        private void Delbtn_Click(object sender, RoutedEventArgs e)
+        private void btnGo_Click(object sender, RoutedEventArgs e)
         {
-            Button b = (Button)sender;
-            int id = Convert.ToInt32(b.Uid);
-            auth DellUs = BaseCon.BaseModel.auth.FirstOrDefault(x => x.id == id);
-            BaseCon.BaseModel.auth.Remove(DellUs);
+            int OT = Convert.ToInt32(txtOT.Text) - 1;//т.к. индексы начинаются с нуля
+            int DO = Convert.ToInt32(txtDO.Text);
+            lu1 = users.Skip(OT).Take(DO - OT).ToList();
+            lbUsersList.ItemsSource = lu1;
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Button btnedit = (Button)sender;
+                int index = Convert.ToInt32(btnedit.Uid);
+                auth CurrentUser = BaseCon.BaseModel.auth.FirstOrDefault(x => x.id == index);
+                MessageBox.Show("" + index);
+                load.MainFrame.Navigate(new change(CurrentUser));
+            }
+            catch (Exception exp)
+            {
+                MessageBox.Show("Возникла  ошибка" + exp.Message);
+            }
+        }
+
+        private void RemoveUser_Click(object sender, RoutedEventArgs e)
+        {
+            Button btnedit = (Button)sender;
+            int index = Convert.ToInt32(btnedit.Uid);
+            auth CurrentUser = BaseCon.BaseModel.auth.FirstOrDefault(x => x.id == index);
+            BaseCon.BaseModel.auth.Remove(CurrentUser);
             BaseCon.BaseModel.SaveChanges();
-            MessageBox.Show("Пользователь удален!");
-            TimeSpan.FromSeconds(3);
-            lbUsersList.ItemsSource = BaseCon.BaseModel.users.ToList();
+            users = BaseCon.BaseModel.users.ToList();
+            lbUsersList.ItemsSource = users;
+
         }
 
-        private void createbtn_Click(object sender, RoutedEventArgs e)
+        private void btnNewUser_Click(object sender, RoutedEventArgs e)
         {
             load.MainFrame.Navigate(new reg(1));
-
         }
 
-        private void back_Click(object sender, RoutedEventArgs e)
+        private void Filter(object sender, RoutedEventArgs e)
         {
-            load.MainFrame.Navigate(new login());
-        }
-
-        private void btnSort_Click(object sender, RoutedEventArgs e)
-        {
-            List<users> lt = users.ToList();
-            if (tbStart.Text != "" && tbFinish.Text != "")
+            lu1 = users;
+            try
             {
-                if (Convert.ToInt32(tbStart.Text) >= 0)
+                int OT = Convert.ToInt32(txtOT.Text) - 1;
+                int DO = Convert.ToInt32(txtDO.Text);
+                lu1 = users.Skip(OT).Take(DO - OT).ToList();
+            }
+            catch
+            { }
+
+            if (lbGenderFilter.SelectedValue != null)
+            {
+                lu1 = lu1.Where(x => x.gender == (int)lbGenderFilter.SelectedValue).ToList();
+            }
+
+
+            if (txtNameFilter.Text != "")
+            {
+                lu1 = lu1.Where(x => x.name.Contains(txtNameFilter.Text)).ToList();
+            }
+
+            lbUsersList.ItemsSource = lu1;
+            NewPage.Countlist = lu1.Count;
+        }
+
+        private void UserImage_Loaded(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Image IMG = sender as System.Windows.Controls.Image;
+            int ind = Convert.ToInt32(IMG.Uid);
+            users U = BaseCon.BaseModel.users.FirstOrDefault(x => x.id == ind);//запись о текущем пользователе
+            usersimage UI = BaseCon.BaseModel.usersimage.FirstOrDefault(x => x.id_user == ind && x.avatar == true);//получаем запись о картинке для текущего пользователя
+            BitmapImage BI = new BitmapImage();
+            if (UI != null)//если для текущего пользователя существует запись о его катринке
+            {
+                if (UI.path != null)//если присутствует путь к картинке
                 {
-                    if (Convert.ToInt32(tbFinish.Text) < users.Count)
-                    {
-                        int start = Convert.ToInt32(tbStart.Text) - 1;
-                        int finish = Convert.ToInt32(tbFinish.Text);
-                        lt = users.Skip(start).Take(finish - start).ToList();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Строка, до которой необходимо выбрать элементы, больше максимальной. \nДля корректной работы фильтра, поправьте данное значение.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
-                        int start = Convert.ToInt32(tbStart.Text) - 1;
-                        int finish = Convert.ToInt32(tbFinish.Text);
-                        lt = users.Skip(start).Take(finish - start).ToList();
-                    }
+                    BI = new BitmapImage(new Uri(UI.path, UriKind.Relative));
                 }
-                else
+                else//если присутствуют двоичные данные
                 {
-                    MessageBox.Show("Строка, от которой необходимо реализовать выборку - отрицательная.\nДля корректной работы фильтра, поправьте данное значение.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Information);
-                    int start = Convert.ToInt32(tbStart.Text) - 1;
-                    int finish = Convert.ToInt32(tbFinish.Text);
-                    lt = users.Skip(start).Take(finish - start).ToList();
+                    BI.BeginInit();//начать инициализацию BitmapImage (для помещения данных из какого-либо потока)
+                    BI.StreamSource = new MemoryStream(UI.image);//помещаем в источник данных двоичные данные из потока
+                    BI.EndInit();//закончить инициализацию
                 }
             }
-            if (Gen.SelectedItem != null)
-                lt = lt.Where(x => x.gender == Convert.ToInt32(Gen.SelectedValue)).ToList();
+            else
+            {
 
-            lbUsersList.ItemsSource = lt;
+                switch (U.gender)
+                {
+                    case 1:
+                        BI = new BitmapImage(new Uri(@"/res/Dog.jpg", UriKind.Relative));
+                        break;
+                    case 2:
+                        BI = new BitmapImage(new Uri(@"/res/Panda.jpg", UriKind.Relative));
+                        break;
+                    default:
+                        BI = new BitmapImage(new Uri(@"/res/unnamed.jpg", UriKind.Relative));
+                        break;
+                }
+            }
+
+
+
+            IMG.Source = BI;
         }
 
-        private void btnRset_Click(object sender, RoutedEventArgs e)
+        private void txtPrev_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            tbStart.Text = null;
-            tbFinish.Text = null;
-            Gen.SelectedItem = null;
-            List<users> lt = users.ToList();
-            lbUsersList.ItemsSource = lt;
+            TextBlock tb = (TextBlock)sender;//определяем, какой текстовый блок был нажат           
+            //изменение номера страници при нажатии на кнопку
+            switch (tb.Uid)
+            {
+                case "prev":
+                    NewPage.CurrentPage--;
+                    break;
+                case "next":
+                    NewPage.CurrentPage++;
+                    break;
+                default:
+                    NewPage.CurrentPage = Convert.ToInt32(tb.Text);
+                    break;
+            }
+
+
+            //определение списка
+            lbUsersList.ItemsSource = lu1.Skip(NewPage.CurrentPage * NewPage.CountPage - NewPage.CountPage).Take(NewPage.CountPage).ToList();
+
+            txtCurrentPage.Text = "Текущая страница: " + (NewPage.CurrentPage).ToString();
         }
 
-        private void tbStart_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private void txtPageCount_TextChanged(object sender, TextChangedEventArgs e)
         {
-            e.Handled = !(Char.IsDigit(e.Text, 0));
+            try
+            {
+                NewPage.CountPage = Convert.ToInt32(txtPageCount.Text);
+            }
+            catch
+            {
+                NewPage.CountPage = lu1.Count;
+            }
+            NewPage.Countlist = users.Count;
+            lbUsersList.ItemsSource = lu1.Skip(0).Take(NewPage.CountPage).ToList();
+        }
+
+        private void AddAvatar_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button BTN = (Button)sender;
+            int ind = Convert.ToInt32(BTN.Uid);
+            USIM = BaseCon.BaseModel.usersimage.Where(x => x.id_user == ind && x.avatar == true).ToList();
+            MessageBox.Show(Convert.ToString(USIM.Count()));
+
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.DefaultExt = ".jpg"; // задаем расширение по умолчанию
+            openFileDialog.Filter = "Изображения |*.jpg;*.png"; // задаем фильтр на форматы файлов
+            var result = openFileDialog.ShowDialog();
+            if (result == true)//если файл выбран
+            {
+                System.Drawing.Image UserImage = System.Drawing.Image.FromFile(openFileDialog.FileName);//создаем изображение
+                ImageConverter IC = new ImageConverter();//конвертер изображения в массив байт
+                byte[] ByteArr = (byte[])IC.ConvertTo(UserImage, typeof(byte[]));//непосредственно конвертация
+                usersimage UI = new usersimage() { id_user = ind, image = ByteArr };//создаем новый объект usersimage
+                BaseCon.BaseModel.usersimage.Add(UI);//добавляем его в модель
+                BaseCon.BaseModel.SaveChanges();//синхронизируем с базой
+                MessageBox.Show("Картинка пользователя добавлена в базу");
+            }
+            else
+            {
+                MessageBox.Show("Вы не выбрали фото");
+            }
+
+            users = BaseCon.BaseModel.users.ToList();
+            lbUsersList.ItemsSource = users;
+        }
+        private void Sort_Click(object sender, RoutedEventArgs e)
+        {
+            RadioButton RB = (RadioButton)sender;
+            switch (RB.Uid)
+            {
+                case "name":
+                    lu1 = lu1.OrderBy(x => x.name).ToList();
+                    break;
+                case "DR":
+                    lu1 = lu1.OrderBy(x => x.dr).ToList();
+                    break;
+            }
+            if (RBReverse.IsChecked == true)
+            {
+                lu1.Reverse();
+            }
+            lbUsersList.ItemsSource = lu1;
+        }
+
+        private void TEST_Click_1(object sender, RoutedEventArgs e)
+        {
+            Button BTN = (Button)sender;
+            int ind = Convert.ToInt32(BTN.Uid);
+            USIM = BaseCon.BaseModel.usersimage.Where(x => x.id_user == ind).ToList();
+            MessageBox.Show(Convert.ToString(USIM.Count()));
+        }
+
+        private void txtVozrast_Loaded(object sender, RoutedEventArgs e)
+        {
+            int Vozrast;
+
+            TextBlock tb = (TextBlock)sender;
+            int index = Convert.ToInt32(tb.Uid);
+            users us = BaseCon.BaseModel.users.FirstOrDefault(x => x.id == index);
+            var today = DateTime.Today;
+
+            // Calculate the age.
+            Vozrast = today.Year - us.dr.Year;
+
+            // Go back to the year in which the person was born in case of a leap year
+            if (us.dr.Date > today.AddYears(Convert.ToInt32(-Vozrast))) Vozrast--;
+            if (us != null && Vozrast > 10)
+            {
+
+                tb.Foreground = Brushes.Red;
+            }
         }
     }
 }

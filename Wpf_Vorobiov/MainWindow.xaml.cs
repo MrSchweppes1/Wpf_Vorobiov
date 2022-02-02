@@ -12,17 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf_Vorobiov.classes;
+using Wpf_Vorobiov.pages;
 
-namespace Wpf_Vorobiov.pages
+namespace Wpf_Vorobiov
 {
     /// <summary>
-    /// Логика взаимодействия для gallary.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class gallary : Page
+    public partial class MainWindow : Window
     {
-        public gallary()
+        public MainWindow()
         {
             InitializeComponent();
+            
+            load.MainFrame = frmMain;
+            frmMain.Navigate(new login());
+            BaseCon.BaseModel = new Entities();
         }
     }
 }

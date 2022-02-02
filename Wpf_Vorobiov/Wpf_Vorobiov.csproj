@@ -44,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
@@ -69,7 +70,9 @@
     </Compile>
     <Compile Include="classes\BaseCon.cs" />
     <Compile Include="classes\load.cs" />
+    <Compile Include="classes\PageChange.cs" />
     <Compile Include="classes\TimeLine.cs" />
+    <Compile Include="classes\UserChange.cs" />
     <Compile Include="genders.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -86,9 +89,6 @@
     </Compile>
     <Compile Include="pages\DLLPage.xaml.cs">
       <DependentUpon>DLLPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="pages\gallary.xaml.cs">
-      <DependentUpon>gallary.xaml</DependentUpon>
     </Compile>
     <Compile Include="pages\GraphPage.xaml.cs">
       <DependentUpon>GraphPage.xaml</DependentUpon>
@@ -135,10 +135,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="pages\gallary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="pages\GraphPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,7 +147,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="pages\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -169,7 +165,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
-    <Compile Include="pages\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -237,6 +233,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgeUserDLL\AgeUserDLL.csproj">
+      <Project>{e8a9b951-cb6f-404a-b0b5-87c526db3d5c}</Project>
+      <Name>AgeUserDLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
