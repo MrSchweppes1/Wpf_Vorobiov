@@ -21,7 +21,7 @@ namespace Wpf_Vorobiov.pages
     public partial class DLLPage : Page
     {
         public DLLPage()
-        {
+        { 
             InitializeComponent();
         }
     }
