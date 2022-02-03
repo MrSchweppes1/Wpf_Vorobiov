@@ -5,27 +5,52 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Wpf_Vorobiov.pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="580" d:DesignWidth="800"
       Title="admin">
 
     <Grid>
         <ScrollViewer>
-            <StackPanel>
-                <DataGrid x:Name="dgUsers" AutoGenerateColumns="False"  IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Логин" Binding="{Binding login}"/>
-                        <DataGridTextColumn Header="Пароль" Binding="{Binding password}"/>
-                        <DataGridTextColumn Header="Роль" Binding="{Binding roles.role}"/>
-                        <DataGridTextColumn Header="Имя" Binding="{Binding users.name}"/>
-                        <DataGridTextColumn Header="Дата" Binding="{Binding users.dr}"/>
-                        <DataGridTextColumn Header="Пол" Binding="{Binding users.genders.gender}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-                <TextBlock Text="Удаление"/>
-                <Button x:Name="Del" Content="Del" Style="{StaticResource butnot}" Click="Del_Click"/>
-                <Button x:Name="UpdateBTN" Content="Update" Style="{StaticResource butnot}" Click="UpdateBTN_Click"/>
-                <Button x:Name="Backbtn" Content="Назад" IsCancel="True" Style="{StaticResource butnot}" Click="Backbtn_Click"/>
-            </StackPanel>
+            <GroupBox Header="Введите данные о себе" Margin="20">
+                <StackPanel>
+                    <GroupBox Header="Логин пользователя">
+                        <TextBox x:Name="txtLogin"  />
+                    </GroupBox>
+                    <GroupBox Header="Пароль пользователя">
+                        <TextBox x:Name="txtPass"  />
+                    </GroupBox>
+                    <GroupBox Header="Имя пользователя">
+                        <TextBox x:Name="txtName"  />
+                    </GroupBox>
+                    <GroupBox Header=" Дата рождения пользователя">
+                        <DatePicker Name="dtDr" />
+                    </GroupBox>
+                    <StackPanel>
+                        <TextBlock  Text="Текущий пол пользователя:  "  x:Name="txtPol" Margin="5" ></TextBlock>
+                    </StackPanel>
+                    <GroupBox Header="Изменить при необходимости">
+                        <ListBox x:Name="listGenders"/>
+                    </GroupBox>
+                    <GroupBox Header="Качества личности пользователя">
+                        <StackPanel>
+                            <CheckBox x:Name="ch1st" Content="Добрый"  ></CheckBox>
+                            <CheckBox x:Name="ch2d" Content="Нежный"></CheckBox>
+                            <CheckBox x:Name="ch3d" Content="Ласковый" ></CheckBox>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Фото">
+                        <Image x:Name="Image" Loaded="Image_Loaded" Width="150"  Height="120"  />
+                    </GroupBox>
+                    <StackPanel Grid.Row="1">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="Предыдущее" Name="btnPrev"  Style="{StaticResource butnot}" Click="imgChange"/>
+                            <Button Content="Следующее" Name="btnNext" Style="{StaticResource butnot}" Click="imgChange"/>
+                        </StackPanel>
+                        <!--<Button Content=" Выбрать новое фото" Name="btnChange" Click="btnChange_Click"> </Button>-->
+                    </StackPanel>
+                    <Button  Content ="Изменить данные"  Name="btnEdit" Style="{StaticResource butnot}" Click="btnEdit_Click"/>
+                    <Button Content="Назад" Name="btnBack" Style="{StaticResource butnot}" Click="btnBack_Click"/>
+                </StackPanel>
+            </GroupBox>
         </ScrollViewer>
     </Grid>
 </Page>

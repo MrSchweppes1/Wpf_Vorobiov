@@ -46,7 +46,6 @@ namespace Wpf_Vorobiov.pages
             DataContext = NewPage;
 
         }
-
         private void lbTraits_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -62,7 +61,6 @@ namespace Wpf_Vorobiov.pages
                 MessageBox.Show("Возникла  ошибка" + exp.Message);
             }
         }
-
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             lbUsersList.ItemsSource = users;//в качестве источника данных исходный список
@@ -85,7 +83,6 @@ namespace Wpf_Vorobiov.pages
             lbUsersList.ItemsSource = lu1;
 
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -94,14 +91,13 @@ namespace Wpf_Vorobiov.pages
                 int index = Convert.ToInt32(btnedit.Uid);
                 auth CurrentUser = BaseCon.BaseModel.auth.FirstOrDefault(x => x.id == index);
                 MessageBox.Show("" + index);
-                load.MainFrame.Navigate(new change(CurrentUser));
+                load.MainFrame.Navigate(new admin(CurrentUser));
             }
             catch (Exception exp)
             {
                 MessageBox.Show("Возникла  ошибка" + exp.Message);
             }
         }
-
         private void RemoveUser_Click(object sender, RoutedEventArgs e)
         {
             Button btnedit = (Button)sender;
@@ -111,14 +107,11 @@ namespace Wpf_Vorobiov.pages
             BaseCon.BaseModel.SaveChanges();
             users = BaseCon.BaseModel.users.ToList();
             lbUsersList.ItemsSource = users;
-
         }
-
         private void btnNewUser_Click(object sender, RoutedEventArgs e)
         {
             load.MainFrame.Navigate(new reg(1));
         }
-
         private void Filter(object sender, RoutedEventArgs e)
         {
             lu1 = users;
@@ -145,7 +138,6 @@ namespace Wpf_Vorobiov.pages
             lbUsersList.ItemsSource = lu1;
             NewPage.Countlist = lu1.Count;
         }
-
         private void UserImage_Loaded(object sender, RoutedEventArgs e)
         {
             System.Windows.Controls.Image IMG = sender as System.Windows.Controls.Image;
@@ -168,7 +160,6 @@ namespace Wpf_Vorobiov.pages
             }
             else
             {
-
                 switch (U.gender)
                 {
                     case 1:
@@ -182,12 +173,8 @@ namespace Wpf_Vorobiov.pages
                         break;
                 }
             }
-
-
-
             IMG.Source = BI;
         }
-
         private void txtPrev_MouseDown(object sender, MouseButtonEventArgs e)
         {
             TextBlock tb = (TextBlock)sender;//определяем, какой текстовый блок был нажат           
@@ -204,14 +191,11 @@ namespace Wpf_Vorobiov.pages
                     NewPage.CurrentPage = Convert.ToInt32(tb.Text);
                     break;
             }
-
-
             //определение списка
             lbUsersList.ItemsSource = lu1.Skip(NewPage.CurrentPage * NewPage.CountPage - NewPage.CountPage).Take(NewPage.CountPage).ToList();
 
             txtCurrentPage.Text = "Текущая страница: " + (NewPage.CurrentPage).ToString();
         }
-
         private void txtPageCount_TextChanged(object sender, TextChangedEventArgs e)
         {
             try
@@ -225,15 +209,12 @@ namespace Wpf_Vorobiov.pages
             NewPage.Countlist = users.Count;
             lbUsersList.ItemsSource = lu1.Skip(0).Take(NewPage.CountPage).ToList();
         }
-
         private void AddAvatar_Click(object sender, RoutedEventArgs e)
         {
-
             Button BTN = (Button)sender;
             int ind = Convert.ToInt32(BTN.Uid);
             USIM = BaseCon.BaseModel.usersimage.Where(x => x.id_user == ind && x.avatar == true).ToList();
             MessageBox.Show(Convert.ToString(USIM.Count()));
-
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.DefaultExt = ".jpg"; // задаем расширение по умолчанию
@@ -253,7 +234,6 @@ namespace Wpf_Vorobiov.pages
             {
                 MessageBox.Show("Вы не выбрали фото");
             }
-
             users = BaseCon.BaseModel.users.ToList();
             lbUsersList.ItemsSource = users;
         }
@@ -275,7 +255,6 @@ namespace Wpf_Vorobiov.pages
             }
             lbUsersList.ItemsSource = lu1;
         }
-
         private void TEST_Click_1(object sender, RoutedEventArgs e)
         {
             Button BTN = (Button)sender;
@@ -283,7 +262,6 @@ namespace Wpf_Vorobiov.pages
             USIM = BaseCon.BaseModel.usersimage.Where(x => x.id_user == ind).ToList();
             MessageBox.Show(Convert.ToString(USIM.Count()));
         }
-
         private void txtVozrast_Loaded(object sender, RoutedEventArgs e)
         {
             int Vozrast;
@@ -292,15 +270,12 @@ namespace Wpf_Vorobiov.pages
             int index = Convert.ToInt32(tb.Uid);
             users us = BaseCon.BaseModel.users.FirstOrDefault(x => x.id == index);
             var today = DateTime.Today;
-
             // Calculate the age.
             Vozrast = today.Year - us.dr.Year;
-
             // Go back to the year in which the person was born in case of a leap year
             if (us.dr.Date > today.AddYears(Convert.ToInt32(-Vozrast))) Vozrast--;
             if (us != null && Vozrast > 10)
             {
-
                 tb.Foreground = Brushes.Red;
             }
         }

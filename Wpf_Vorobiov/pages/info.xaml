@@ -23,7 +23,7 @@
                         <GroupBox Header="Пол">
                             <TextBlock x:Name="genderTxt"/>
                         </GroupBox>
-                        <GroupBox Header="качества личности">
+                        <GroupBox Header="Качества личности">
                             <TextBlock x:Name="tbTraits" />
                         </GroupBox>
                         <GroupBox Header="Фото">

@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Wpf_Vorobiov.pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1200"
-      Title="userList">
+      d:DesignHeight="450"
+      Title="userList" Width="1126.5">
 
     <Page.Resources>
         <Style TargetType="StackPanel" x:Key="SPstyle">
@@ -90,7 +90,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="55"/>
+            <RowDefinition Height="70"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0"  Orientation="Horizontal">
@@ -106,13 +106,17 @@
             <GroupBox Header="часть имени">
                 <TextBox Name="txtNameFilter" TextChanged="Filter"/>
             </GroupBox>
-            <Button Name="btnGo" Content="Вывести" Style="{StaticResource butnot}" Click="Filter" Width="78" Margin="5"/>
-            <Button Name="btnReset" Content="Сброс" Style="{StaticResource butnot}" Click="btnReset_Click" Width="83" Margin="5"/>
-            <Button x:Name="btnNewUser" Content="Добавить пользователя"  Margin="5" Style="{StaticResource butnot}" Click="btnNewUser_Click" Width="185"></Button>
-            <GroupBox Header="Сколько вывести пользователь">
+            <StackPanel  Orientation="Vertical" Width="100">
+                <Button x:Name="btnGo" Content="Вывести" Style="{StaticResource butnot}" Click="Filter" Width="80" Height="30" Margin="0,5,0,0"/>
+                <Button x:Name="btnReset" Content="Сброс" Style="{StaticResource butnot}" Click="btnReset_Click" Width="80" Height="30"  Margin="0,3,0,2"/>
+            </StackPanel>
+
+
+            <Button x:Name="btnNewUser" Content="Добавить пользователя"  Margin="5" Style="{StaticResource butnot}" Click="btnNewUser_Click" Width="172"></Button>
+            <GroupBox Header="Сколько пользователей">
                 <TextBox Name="txtPageCount" TextChanged="txtPageCount_TextChanged" />
             </GroupBox>
-            <GroupBox Header="Сортировка">
+            <GroupBox Header="Сортировка" Margin="0,0,0,5">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel>
                         <RadioButton x:Name="sz" Content ="по имени" Click="Sort_Click" Uid="name"/>
