@@ -218,8 +218,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="pages\landscape.mp4" />
     <Resource Include="media\ban.png" />
-    <Content Include="media\landscape.mp4" />
+    <None Include="media\landscape.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Resource Include="media\logo1.png" />
     <Resource Include="media\Pause.png" />
     <Resource Include="media\play.png" />

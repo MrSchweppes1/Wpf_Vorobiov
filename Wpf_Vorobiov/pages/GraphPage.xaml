@@ -10,7 +10,7 @@
 
     <Grid>
         <StackPanel Width="100" Height="100" VerticalAlignment="Top">
-            <Button x:Name="Back" Click="Back_Click" Width="100" Height="30"  Content="Назад"></Button>
+            <Button x:Name="Back" Click="Back_Click" Style="{StaticResource butnot}" Width="100" Height="30"  Content="Назад"></Button>
         </StackPanel>
         <Grid Name="gridDiagram" SizeChanged="gridDiagram_SizeChanged">
         </Grid>

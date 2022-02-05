@@ -30,5 +30,10 @@ namespace Wpf_Vorobiov
             frmMain.Navigate(new login());
             BaseCon.BaseModel = new Entities();
         }
+
+        private void frmMain_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
+        }
     }
 }
