@@ -216,10 +216,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="media\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Resource Include="media\ban.png" />
+    <Content Include="media\landscape.mp4" />
+    <Resource Include="media\logo1.png" />
+    <Resource Include="media\Pause.png" />
+    <Resource Include="media\play.png" />
+    <Resource Include="media\refresh.png" />
+    <Resource Include="media\Stop.png" />
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Model1.Context.cs</LastGenOutput>
